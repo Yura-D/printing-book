@@ -1,0 +1,10 @@
+setting for printing boogs:
+size of page: A4
+spesial print range
+orientation: landscape
+print handling: multiple pages per sheet
+pagers per sheet: custom, 2, 1
+print on the both sides of paper
+	flip on short edge
+quality options: text
+NOT Reverse pages
