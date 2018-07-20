@@ -1,3 +1,5 @@
+import pyperclip
+
 pages = input("How mach page you want to print: ")
 
 template = [16, 1, 2, 15, 14, 3, 4, 13, 12, 5, 6, 11, 10, 7, 8, 9]
@@ -49,5 +51,10 @@ print("\n", count + 1, " - ", remainder, 4 * " ", "min page:", min(remainder), "
 for n in remainder:
     ready_numbers.append(n)
 
+printing_list = str(ready_numbers)[1:-1]
+print("\n Printing list:\n", printing_list)
 
-print("\n", ready_numbers)
+try:
+    pyperclip.copy(printing_list)
+except:
+    pass
