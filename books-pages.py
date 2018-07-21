@@ -1,58 +1,61 @@
 import pyperclip
 
-pages = input("How mach page you want to print: ")
-
-template = [16, 1, 2, 15, 14, 3, 4, 13, 12, 5, 6, 11, 10, 7, 8, 9]
+pages = int(input("How mach page you want to print: "))
 
 
-ready_numbers = list()
-x = 0
+def right_sequence(sheet, new_list):
+    count = 0
+    while count < 4:      
+        try:
+            seq = [sheet.pop(-1), sheet.pop(0), sheet.pop(0), sheet.pop(-1)]
+            new_list.extend(seq)
+
+        except:
+            break
+
+        count = count + 1
+        
+    return new_list
+
+
+all_pages = [x for x in range(1, pages+1)]
+
+pages_mod = pages % 4
+
+if pages_mod != 0:
+    first_part = all_pages[:-pages_mod]
+    second_part = all_pages[-pages_mod:]
+else:
+    first_part = all_pages
+    second_part = []
+
+sorted_first_part = list()
+
+start = 0
+end = 16
 count = 0
-while x + 16 < int(pages):
-    current_pages = list()
-    for n in template:
-        n = n + x
-        ready_numbers.append(n)
-        current_pages.append(n)
+
+
+while start+1 < first_part[-1]:
+    right_sequence(first_part[start:end], sorted_first_part)
+
+    to_print = sorted_first_part[start:end]
     count = count + 1
-    print("\n", count, " - ", current_pages, 4 * " ", "min page:", min(current_pages), "max page: ", max(current_pages))
-    del current_pages[:]
-    x = x + 16
+    print("\n", count, " - ", to_print, 4 * " ", \
+        "min page:", min(to_print), "max page: ", max(to_print))
 
-last_number = max(ready_numbers)
+    start = start + 16
+    end = end + 16
 
-remainder = list()
-first = last_number
-last = int(pages) + 1
-while True:
-    if last - 1 not in remainder:
-        last = last - 1
-        remainder.append(last)
-    else:
-        break
-    if first + 1 not in remainder:
-        first = first + 1
-        remainder.append(first)
-    else:
-        break
-    if first + 1 not in remainder:
-        first = first + 1
-        remainder.append(first)
-    else:
-        break
-    if last - 1 not in remainder:
-        last = last - 1
-        remainder.append(last)
-    else:
-        break
 
-print("\n", count + 1, " - ", remainder, 4 * " ", "min page:", min(remainder), "max page: ", max(remainder))
+if second_part != []:
+        print("\n", count, " - ", second_part, 4 * " ", \
+        "min page:", min(second_part), "max page: ", max(second_part))
 
-for n in remainder:
-    ready_numbers.append(n)
 
-printing_list = str(ready_numbers)[1:-1]
+printing_list = str(sorted_first_part + second_part)[1:-1]
 print("\n Printing list:\n", printing_list)
+
 
 try:
     pyperclip.copy(printing_list)
